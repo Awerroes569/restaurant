@@ -6,6 +6,7 @@ import { getAllStatuses } from '../../redux/statusesRedux';
 import { getTableById } from '../../redux/tablesRedux';
 import { useParams } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
+import styles from './Table.module.scss';
 
 
 const extractValues = (statuses, status) => {
@@ -33,6 +34,21 @@ const Table = () => {
         setStatus(event.target.value);
       };
 
+    const handlePeopleAmountChange = (event) => {
+        event.preventDefault();
+        setPeopleAmount(event.target.value);
+    };
+
+    const handleMaxPeopleAmountChange = (event) => {
+        event.preventDefault();
+        setMaxPeopleAmount(event.target.value);
+    };
+
+    const handleBill = (event) => {
+        event.preventDefault();
+        setBill(event.target.value);
+    };
+
     return (
         <Container>
             <Row
@@ -46,12 +62,21 @@ const Table = () => {
                         Table {table.id}
                     </h1>
                 </Col>
-                <Col className="d-flex flex-row">
+                <Col
+                    className="
+                        d-flex
+                        flex-row
+                    "
+                >
                     <h2 className="text-start">
                         Status:
                     </h2>
                     
-                    <select className="mx-4" value={status} onChange={handleSelectChange}>
+                    <select
+                        className="mx-4"
+                        value={status}
+                        onChange={handleSelectChange}
+                    >
                         {
                             selectionStatuses.map(status => (
                                 <option key={status} value={status}>
@@ -61,15 +86,47 @@ const Table = () => {
                         }
                     </select>
                 </Col>
-                <Col>
-                    <h2>
-                        People: <span className="border border-secondary border-3 p-2 rounded">{table.peopleAmount}</span> / <span className="border border-secondary border-3 p-2 rounded">{table.maxPeopleAmount}</span>
+                <Col
+                    className="
+                        d-flex
+                        flex-row
+                    "
+                >
+                    <h2 className="text-start">
+                        People:
                     </h2>
+                    <input 
+                        type="number" 
+                        className="border border-secondary border-3 p-2 rounded custom-input" 
+                        value={peopleAmount} 
+                        onChange={handlePeopleAmountChange}
+                        style={{width: '50px'}}
+                    /> 
+                    &nbsp;/&nbsp;
+                    <input 
+                        type="number" 
+                        className="border border-secondary border-3 p-2 rounded" 
+                        value={maxPeopleAmount} 
+                        onChange={handleMaxPeopleAmountChange} 
+                        style={{width: '50px'}}
+                    />
                 </Col>
-                <Col>
+                <Col
+                    className="
+                        d-flex
+                        flex-row
+                    "
+                >
                     <h2>
-                        Bill: $<span className="border border-secondary border-3 p-2 rounded">{table.bill}</span> 
+                        Bill: $ 
                     </h2>
+                    <input 
+                        type="number" 
+                        className="border border-secondary border-3 p-2 rounded" 
+                        value={bill} 
+                        onChange={handleBill} 
+                        style={{width: '70px'}}
+                    />
                 </Col>
                 <Col className="ms-auto">
                     <Button variant="primary">
