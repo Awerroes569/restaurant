@@ -49,6 +49,19 @@ const Table = () => {
         setBill(event.target.value);
     };
 
+    useEffect(() => {
+        status!=='Busy' && setBill(0);
+        (status==='Free' || status==='Cleaning') && setPeopleAmount(0); 
+    }, [status]);
+
+    useEffect(() => {
+        maxPeopleAmount<0 && setMaxPeopleAmount(0);
+        maxPeopleAmount>10 && setMaxPeopleAmount(10);
+        peopleAmount<0 && setPeopleAmount(0);
+        peopleAmount>10 && setPeopleAmount(10);
+        peopleAmount>maxPeopleAmount && setPeopleAmount(maxPeopleAmount);
+    }, [peopleAmount, maxPeopleAmount]);
+
     return (
         <Container>
             <Row
@@ -111,23 +124,28 @@ const Table = () => {
                         style={{width: '50px'}}
                     />
                 </Col>
-                <Col
-                    className="
-                        d-flex
-                        flex-row
-                    "
-                >
-                    <h2>
-                        Bill: $ 
-                    </h2>
-                    <input 
-                        type="number" 
-                        className="border border-secondary border-3 p-2 rounded" 
-                        value={bill} 
-                        onChange={handleBill} 
-                        style={{width: '70px'}}
-                    />
-                </Col>
+                {
+                    status==='Busy'
+                    && 
+                    <Col
+                        className="
+                            d-flex
+                            flex-row
+                        "
+                    >
+                        <h2>
+                            Bill: $ 
+                        </h2>
+                        <input 
+                            type="number" 
+                            className="border border-secondary border-3 p-2 rounded" 
+                            value={bill} 
+                            onChange={handleBill} 
+                            style={{width: '70px'}}
+                        />
+                    </Col>
+                }
+
                 <Col className="ms-auto">
                     <Button variant="primary">
                         Update
