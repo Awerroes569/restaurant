@@ -1,5 +1,9 @@
 import { getAllTables } from "../../redux/tablesRedux";
 import { useSelector } from "react-redux";
+import { ListGroup } from 'react-bootstrap';
+import TableSmall from '../features/TableSmall';
+import Table from '../pages/Table';
+import { getAllStatuses } from "../../redux/statusesRedux";
 
 
 
@@ -8,16 +12,22 @@ const Home = () => {
 const tables = useSelector(getAllTables);
 console.log('HOME tables:', tables);
 
+//const statuses = useSelector(getAllStatuses);
+//console.log('HOME statuses:', statuses);
+
   return (
     <div>
-      <h1>Home</h1>
-      <p>Welcome to the Home page!</p>
-      {tables.map(table => (
-        <div key={table.id}>
-          <h2>{table.status}</h2>
-          <p>{table.bill}</p>
-        </div>
-      ))}
+      <h1>All tables</h1>
+
+      <ListGroup>
+        {tables.map(table => (
+            <ListGroup.Item key={table.id}>
+                <TableSmall table={table} />
+            </ListGroup.Item>
+        ))}
+      </ListGroup>
+
+      
 
 
     </div>

@@ -6,17 +6,23 @@ import Table from './components/pages/Table';
 import Wrong from './components/pages/Wrong';
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
-import { fetchData } from './redux/tablesRedux';
+import { fetchDataTables } from './redux/tablesRedux';
+import { fetchDataStatuses } from './redux/statusesRedux';
 import { useDispatch } from 'react-redux';  
 
 
 function App() {
 
-  const dispatch = useDispatch();
+  const dispatch1 = useDispatch();
+  const dispatch2 = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch])
+    dispatch1(fetchDataTables());
+  }, [dispatch1])
+
+  useEffect(() => {
+    dispatch2(fetchDataStatuses());
+  }, [dispatch2])
 
   return (
     <Container className="min-vh-100">

@@ -1,6 +1,10 @@
 //selectors
 
 export const getAllTables = ({ tables }) => tables;
+export const getTableById = ({ tables}, tableId) => {
+  const filtered = tables.find(table => table.id === tableId);
+  return filtered ? filtered : { error: true };
+};
 
 // actions
 const createActionName = actionName => `app/tables/${actionName}`;
@@ -11,7 +15,7 @@ const GET_ALL_TABLES = createActionName('GET_ALL_TABLES');
 const updateTables = payload => ({ type: UPDATE_TABLES, payload });
 export const getAllTablesAction = () => ({ type: GET_ALL_TABLES });
 
-export const fetchData = () => {
+export const fetchDataTables = () => {
   return (dispatch, getState) => {
     fetch(`${process.env.PUBLIC_URL}/db/app.json`)
       .then(response => {
