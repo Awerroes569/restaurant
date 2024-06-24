@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Table.module.scss';
+import { API_URL } from '../../config';
 
 const extractValues = (statuses) => {
     return statuses.map(status => status.name);
@@ -25,7 +26,7 @@ const Table = () => {
     const [selectionStatuses, setSelectionStatuses] = useState(extractValues(statuses));    
 
     const updateItem = async (updatedItem) => {
-        const response = await fetch(`http://localhost:3131/tables/${updatedItem.id}`, {
+        const response = await fetch(`${API_URL}/tables/${updatedItem.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

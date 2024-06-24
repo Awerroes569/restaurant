@@ -1,3 +1,5 @@
+import { API_URL } from "../config";
+
 //selectors
 
 export const getAllTables = ({ tables }) => tables;
@@ -17,7 +19,8 @@ export const getAllTablesAction = () => ({ type: GET_ALL_TABLES });
 
 export const fetchDataTables = () => {
   return (dispatch, getState) => {
-    fetch(`${process.env.PUBLIC_URL}/db/app.json`)
+    //fetch(`${process.env.PUBLIC_URL}/db/app.json`)
+    fetch(`${API_URL}/tables`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -26,7 +29,7 @@ export const fetchDataTables = () => {
         return response.json();
       })
       .then(data => {
-        const { tables } = data;
+        const tables  = data;
         console.log('tables:', tables);
         dispatch(updateTables(tables));
       })

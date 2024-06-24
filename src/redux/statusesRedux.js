@@ -1,3 +1,5 @@
+import { API_URL } from '../config';
+
 //selectors
 
 export const getAllStatuses = ({ statuses }) => statuses;
@@ -13,16 +15,18 @@ export const getAllStatusesAction = () => ({ type: GET_ALL_STATUSES });
 
 export const fetchDataStatuses = () => {
   return (dispatch, getState) => {
-    fetch(`${process.env.PUBLIC_URL}/db/app.json`)
+    fetch(`${API_URL}/statuses`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         console.log('response ok');
+        console.log('response:', response);
         return response.json();
       })
       .then(data => {
-        const { statuses } = data;
+        console.log('data',data);
+        const statuses = data;
         console.log('statuses:', statuses);
         dispatch(updateStatuses(statuses));
       })
