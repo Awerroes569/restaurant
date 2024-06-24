@@ -8,7 +8,8 @@ import Header from './components/views/Header';
 import Footer from './components/views/Footer';
 import { fetchDataTables } from './redux/tablesRedux';
 import { fetchDataStatuses } from './redux/statusesRedux';
-import { useDispatch } from 'react-redux';  
+import { useDispatch } from 'react-redux';
+import styles from './styles/temporary.module.scss';  
 
 
 function App() {

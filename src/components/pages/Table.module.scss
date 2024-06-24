@@ -1,5 +1,5 @@
-.custom-input {
-    text-align: center; /* Center text horizontally */
-    display: inline-block;
-    vertical-align: middle; /* Center text vertically */
-  }
+.customInput, .customSelect {
+  font-size: 1.25rem;
+  text-align: center;
+  width: 200px;
+}

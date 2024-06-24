@@ -1,38 +1,51 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { getAllStatuses } from '../../redux/statusesRedux';
 import { getTableById } from '../../redux/tablesRedux';
 import { useParams } from 'react-router-dom';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Table.module.scss';
 
-
-const extractValues = (statuses, status) => {
-    let names = statuses.map(status => status.name);
-    return names;
-  };
+const extractValues = (statuses) => {
+    return statuses.map(status => status.name);
+};
 
 const Table = () => {
-
-    
-    const {id} = useParams();
+    const { id } = useParams();
     const table = useSelector(state => getTableById(state, id));
     const statuses = useSelector(getAllStatuses);
-
-    
+    const navigate = useNavigate();
 
     const [status, setStatus] = useState(table.status);
     const [peopleAmount, setPeopleAmount] = useState(table.peopleAmount);
     const [maxPeopleAmount, setMaxPeopleAmount] = useState(table.maxPeopleAmount);
     const [bill, setBill] = useState(table.bill);
-    const [selectionStatuses, setSelectionStatuses] = useState(extractValues(statuses, status));    
+    const [selectionStatuses, setSelectionStatuses] = useState(extractValues(statuses));    
+
+    const updateItem = async (updatedItem) => {
+        const response = await fetch(`http://localhost:3131/tables/${updatedItem.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedItem)
+        });
+
+        if (response.ok) {
+            const updatedData = await response.json();
+            console.log('Item updated successfully:', updatedData);
+            navigate('/');
+        } else {
+            console.error('Failed to update item:', response.statusText);
+        }
+    };
 
     const handleSelectChange = (event) => {
         event.preventDefault();
         setStatus(event.target.value);
-      };
+    };
 
     const handlePeopleAmountChange = (event) => {
         event.preventDefault();
@@ -49,111 +62,130 @@ const Table = () => {
         setBill(event.target.value);
     };
 
+    const modifyTable = () => {
+        const updatedTable = {
+            ...table,
+            status: status,
+            peopleAmount: peopleAmount,
+            maxPeopleAmount: maxPeopleAmount,
+            bill: bill
+        };
+        updateItem(updatedTable);
+    };
+
     useEffect(() => {
-        status!=='Busy' && setBill(0);
-        (status==='Free' || status==='Cleaning') && setPeopleAmount(0); 
+        if (status !== 'Busy') setBill(0);
+        if (status === 'Free' || status === 'Cleaning') setPeopleAmount(0); 
     }, [status]);
 
     useEffect(() => {
-        maxPeopleAmount<0 && setMaxPeopleAmount(0);
-        maxPeopleAmount>10 && setMaxPeopleAmount(10);
-        peopleAmount<0 && setPeopleAmount(0);
-        peopleAmount>10 && setPeopleAmount(10);
-        peopleAmount>maxPeopleAmount && setPeopleAmount(maxPeopleAmount);
+        if (maxPeopleAmount < 0) setMaxPeopleAmount(0);
+        if (maxPeopleAmount > 10) setMaxPeopleAmount(10);
+        if (peopleAmount < 0) setPeopleAmount(0);
+        if (peopleAmount > 10) setPeopleAmount(10);
+        if (peopleAmount > maxPeopleAmount) setPeopleAmount(maxPeopleAmount);
     }, [peopleAmount, maxPeopleAmount]);
 
+    useEffect(() => {
+        if (bill < 0) setBill(0);
+    }, [bill]);
+
     return (
-        <Container>
-            <Row
-                className="
-                d-flex
-                flex-column
-                "
-            >
-                <Col>
+        <Container className="py-4">
+            <Row className="d-flex flex-column align-items-center">
+                <Col className="mb-3">
                     <h1>
                         Table {table.id}
                     </h1>
                 </Col>
                 <Col
                     className="
+                        mb-3
                         d-flex
-                        flex-row
+                        align-items-center
                     "
                 >
-                    <h2 className="text-start">
+                    <h2
+                        className="
+                            me-3
+                            col-2
+                        "
+                    >
                         Status:
                     </h2>
-                    
                     <select
-                        className="mx-4"
+                        className={`form-select ${styles.customSelect}`}
                         value={status}
                         onChange={handleSelectChange}
+                        style={{ fontSize: '1.25rem' }}
                     >
-                        {
-                            selectionStatuses.map(status => (
-                                <option key={status} value={status}>
-                                    {status}
-                                </option>
-                            ))
-                        }
+                        {selectionStatuses.map(status => (
+                            <option key={status} value={status}>
+                                {status}
+                            </option>
+                        ))}
                     </select>
                 </Col>
                 <Col
                     className="
+                        mb-3
                         d-flex
-                        flex-row
+                        align-items-center
                     "
                 >
-                    <h2 className="text-start">
+                    <h2
+                        className="
+                            me-3
+                            col-2
+                        "
+                    >
                         People:
                     </h2>
                     <input 
                         type="number" 
-                        className="border border-secondary border-3 p-2 rounded custom-input" 
+                        className={`form-control ${styles.customInput}`} 
                         value={peopleAmount} 
                         onChange={handlePeopleAmountChange}
-                        style={{width: '50px'}}
+                        style={{ width: '70px', textAlign: 'center', fontSize: '1.25rem' }}
                     /> 
                     &nbsp;/&nbsp;
                     <input 
                         type="number" 
-                        className="border border-secondary border-3 p-2 rounded" 
+                        className={`form-control ${styles.customInput}`} 
                         value={maxPeopleAmount} 
                         onChange={handleMaxPeopleAmountChange} 
-                        style={{width: '50px'}}
+                        style={{ width: '70px', textAlign: 'center', fontSize: '1.25rem' }}
                     />
                 </Col>
-                {
-                    status==='Busy'
-                    && 
-                    <Col
-                        className="
-                            d-flex
-                            flex-row
-                        "
-                    >
-                        <h2>
-                            Bill: $ 
+                {status === 'Busy' && (
+                    <Col className="mb-3 d-flex align-items-center">
+                        <h2
+                            className="
+                                me-3
+                                col-2
+                            "
+                        >
+                            Bill:             $
                         </h2>
                         <input 
                             type="number" 
-                            className="border border-secondary border-3 p-2 rounded" 
+                            className={`form-control ${styles.customInput}`} 
                             value={bill} 
                             onChange={handleBill} 
-                            style={{width: '70px'}}
+                            style={{ width: '90px', textAlign: 'center', fontSize: '1.25rem' }}
                         />
                     </Col>
-                }
-
-                <Col className="ms-auto">
-                    <Button variant="primary">
+                )}
+                <Col className="mb-3">
+                    <Button
+                        variant="primary"
+                        onClick={modifyTable}
+                    >
                         Update
                     </Button>
                 </Col>
             </Row>
         </Container>
-
     );   
 }
 
