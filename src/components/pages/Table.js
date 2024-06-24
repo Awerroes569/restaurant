@@ -146,7 +146,6 @@ const Table = () => {
                         className={`form-control ${styles.customInput}`} 
                         value={peopleAmount} 
                         onChange={handlePeopleAmountChange}
-                        style={{ width: '70px', textAlign: 'center', fontSize: '1.25rem' }}
                     /> 
                     &nbsp;/&nbsp;
                     <input 
@@ -154,7 +153,6 @@ const Table = () => {
                         className={`form-control ${styles.customInput}`} 
                         value={maxPeopleAmount} 
                         onChange={handleMaxPeopleAmountChange} 
-                        style={{ width: '70px', textAlign: 'center', fontSize: '1.25rem' }}
                     />
                 </Col>
                 {status === 'Busy' && (
@@ -172,7 +170,6 @@ const Table = () => {
                             className={`form-control ${styles.customInput}`} 
                             value={bill} 
                             onChange={handleBill} 
-                            style={{ width: '90px', textAlign: 'center', fontSize: '1.25rem' }}
                         />
                     </Col>
                 )}
