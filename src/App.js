@@ -11,7 +11,6 @@ import { fetchDataStatuses } from './redux/statusesRedux';
 import { useDispatch } from 'react-redux';
 import styles from './styles/temporary.module.scss';  
 
-
 function App() {
 
   const dispatch1 = useDispatch();

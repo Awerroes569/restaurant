@@ -1,7 +1,6 @@
 import { API_URL } from "../config";
 
 //selectors
-
 export const getAllTables = ({ tables }) => tables;
 export const getTableById = ({ tables}, tableId) => {
   const filtered = tables.find(table => table.id === tableId);
@@ -19,7 +18,6 @@ export const getAllTablesAction = () => ({ type: GET_ALL_TABLES });
 
 export const fetchDataTables = () => {
   return (dispatch, getState) => {
-    //fetch(`${process.env.PUBLIC_URL}/db/app.json`)
     fetch(`${API_URL}/tables`)
       .then(response => {
         if (!response.ok) {
@@ -30,7 +28,6 @@ export const fetchDataTables = () => {
       })
       .then(data => {
         const tables  = data;
-        console.log('tables:', tables);
         dispatch(updateTables(tables));
       })
       .catch(error => {
@@ -38,9 +35,6 @@ export const fetchDataTables = () => {
       });
   };
 };
-
-
-
 
 // reducer
 const tablesReducer = (statePart = [], action) => {

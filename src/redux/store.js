@@ -3,7 +3,6 @@ import { thunk } from 'redux-thunk';
 import initialState from './initialState';
 import tablesReducer from './tablesRedux';
 import statusesReducer from './statusesRedux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 const subreducers = {
     tables: tablesReducer,

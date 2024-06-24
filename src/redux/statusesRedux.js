@@ -21,13 +21,10 @@ export const fetchDataStatuses = () => {
           throw new Error('Network response was not ok');
         }
         console.log('response ok');
-        console.log('response:', response);
         return response.json();
       })
       .then(data => {
-        console.log('data',data);
         const statuses = data;
-        console.log('statuses:', statuses);
         dispatch(updateStatuses(statuses));
       })
       .catch(error => {
@@ -35,7 +32,6 @@ export const fetchDataStatuses = () => {
       });
   };
 };
-
 
 // reducer
 const statusesReducer = (statePart = [], action) => {

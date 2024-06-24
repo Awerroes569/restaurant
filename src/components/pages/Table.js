@@ -93,7 +93,13 @@ const Table = () => {
 
     return (
         <Container className="py-4">
-            <Row className="d-flex flex-column align-items-center">
+            <Row
+                className="
+                d-flex
+                flex-column
+                align-items-center
+                "
+            >
                 <Col className="mb-3">
                     <h1>
                         Table {table.id}
@@ -115,13 +121,15 @@ const Table = () => {
                         Status:
                     </h2>
                     <select
-                        className={`form-select ${styles.customSelect}`}
+                        className={`${styles.customSelect} rounded`}
                         value={status}
                         onChange={handleSelectChange}
-                        style={{ fontSize: '1.25rem' }}
                     >
                         {selectionStatuses.map(status => (
-                            <option key={status} value={status}>
+                            <option
+                                key={status}
+                                value={status}
+                            >
                                 {status}
                             </option>
                         ))}
@@ -144,20 +152,26 @@ const Table = () => {
                     </h2>
                     <input 
                         type="number" 
-                        className={`form-control ${styles.customInput}`} 
+                        className={`${styles.customInput} rounded`} 
                         value={peopleAmount} 
                         onChange={handlePeopleAmountChange}
                     /> 
                     &nbsp;/&nbsp;
                     <input 
                         type="number" 
-                        className={`form-control ${styles.customInput}`} 
+                        className={`${styles.customInput} rounded`} 
                         value={maxPeopleAmount} 
                         onChange={handleMaxPeopleAmountChange} 
                     />
                 </Col>
                 {status === 'Busy' && (
-                    <Col className="mb-3 d-flex align-items-center">
+                    <Col
+                        className="
+                            mb-3
+                            d-flex
+                            align-items-center
+                        "
+                    >
                         <h2
                             className="
                                 me-3
@@ -168,9 +182,10 @@ const Table = () => {
                         </h2>
                         <input 
                             type="number" 
-                            className={`form-control ${styles.customInput}`} 
+                            className={`${styles.customInput} rounded`} 
                             value={bill} 
-                            onChange={handleBill} 
+                            onChange={handleBill}
+                            style = {{width: '70px'}}
                         />
                     </Col>
                 )}
