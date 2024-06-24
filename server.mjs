@@ -1,5 +1,11 @@
-const jsonServer = require('json-server');
-const path = require('path');
+import jsonServer from 'json-server';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import process from 'process';
+
+// Get the __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create the server
 const server = jsonServer.create();
